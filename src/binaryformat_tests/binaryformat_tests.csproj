@@ -1,0 +1,72 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+    <RootNamespace>FormatTests</RootNamespace>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
+
+    <!--
+      Note that this is the only way to enable binary formatter serialization. If this isn't set it will will be set to
+      false by default in the Microsoft.NET.Sdk targets and it will set the RuntimeHostConfigurationOption item for
+      System.Runtime.Serialization.EnableUnsafeBinaryFormatterSerialization will always be set to this value. This will
+      trump anything set in the runtimeconfig.template.json file.
+    -->
+    <EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
+
+    <!--
+     Turning off a number of warnings that would otherwise litter this project due to special
+     test type cases for binary formatting.
+
+     SYSLIB0011: BinaryFormatter obsolete
+     SYSLIB0050: Obsolete attribute
+     SYSLIB0051: Formatters obsolete
+    -->
+    <NoWarn>$(NoWarn);CS1574;CS1580;CA1036;CA1051;CA1066;SYSLIB0011;SYSLIB0050;SYSLIB0051;xUnit1013</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentAssertions" Version="6.12.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
+    <PackageReference Include="System.Drawing.Common" Version="8.0.4" />
+    <PackageReference Include="xunit" Version="2.8.0" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.0">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="coverlet.collector" Version="6.0.2">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\binaryformat\binaryformat.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EditorConfigFiles Remove="N:\repos\binaryformat\src\binaryformat_tests\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="N:\repos\binaryformat\src\binaryformat_tests\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="TestResources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>TestResources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="TestResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>TestResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>
