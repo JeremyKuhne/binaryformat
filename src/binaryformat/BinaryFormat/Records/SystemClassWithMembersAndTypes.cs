@@ -20,7 +20,7 @@ internal sealed class SystemClassWithMembersAndTypes :
     IRecord<SystemClassWithMembersAndTypes>,
     IBinaryFormatParseable<SystemClassWithMembersAndTypes>
 {
-    public SystemClassWithMembersAndTypes(
+    internal SystemClassWithMembersAndTypes(
         ClassInfo classInfo,
         MemberTypeInfo memberTypeInfo,
         IReadOnlyList<object?> memberValues)
@@ -28,7 +28,7 @@ internal sealed class SystemClassWithMembersAndTypes :
     {
     }
 
-    public SystemClassWithMembersAndTypes(
+    internal SystemClassWithMembersAndTypes(
         ClassInfo classInfo,
         MemberTypeInfo memberTypeInfo,
         params object?[] memberValues)
@@ -50,7 +50,7 @@ internal sealed class SystemClassWithMembersAndTypes :
             ReadObjectMemberValues(state, memberTypeInfo));
     }
 
-    public override void Write(BinaryWriter writer)
+    private protected override void Write(BinaryWriter writer)
     {
         writer.Write((byte)RecordType);
         ClassInfo.Write(writer);

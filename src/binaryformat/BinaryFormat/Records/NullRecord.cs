@@ -4,8 +4,21 @@
 namespace BinaryFormat.Records;
 
 /// <summary>
-///  Base class for null records.
+///  Null object record.
 /// </summary>
+/// <remarks>
+///  <para>
+///   <see href="https://learn.microsoft.com/openspecs/windows_protocols/ms-nrbf/fe51522c-23d1-48dd-9913-c84894abc127">
+///    [MS-NRBF] 2.5.4
+///   </see>
+///   <see href="https://learn.microsoft.com/openspecs/windows_protocols/ms-nrbf/f4abb5dd-aab7-4e0a-9d77-1d6c99f5779e">
+///    [MS-NRBF] 2.5.5
+///   </see>
+///   <see href="https://learn.microsoft.com/openspecs/windows_protocols/ms-nrbf/f4abb5dd-aab7-4e0a-9d77-1d6c99f5779e">
+///    [MS-NRBF] 2.5.5
+///   </see>
+///  </para>
+/// </remarks>
 internal abstract partial class NullRecord
 {
     private Count _count;
@@ -33,7 +46,7 @@ internal abstract partial class NullRecord
             case 0:
                 throw new ArgumentOutOfRangeException(nameof(nullCount));
             case 1:
-                ObjectNull.Instance.Write(writer);
+                ObjectNull.Write(writer);
                 break;
             case <= 255:
                 new ObjectNullMultiple256(nullCount).Write(writer);

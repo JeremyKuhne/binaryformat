@@ -17,18 +17,18 @@ namespace BinaryFormat.Records;
 ///   </see>
 ///  </para>
 /// </remarks>
-internal class MemberTypeInfo : IBinaryWriteable, IEnumerable<(BinaryType Type, object? Info)>
+public class MemberTypeInfo : IEnumerable<(BinaryType Type, object? Info)>
 {
     private readonly IList<(BinaryType Type, object? Info)> _info;
 
-    public MemberTypeInfo(IList<(BinaryType Type, object? Info)> info) => _info = info;
+    internal MemberTypeInfo(IList<(BinaryType Type, object? Info)> info) => _info = info;
 
-    public MemberTypeInfo(params (BinaryType Type, object? Info)[] info) => _info = info;
+    internal MemberTypeInfo(params (BinaryType Type, object? Info)[] info) => _info = info;
 
     public (BinaryType Type, object? Info) this[int index] => _info[index];
     public int Count => _info.Count;
 
-    public static MemberTypeInfo Parse(BinaryReader reader, Count expectedCount)
+    internal static MemberTypeInfo Parse(BinaryReader reader, Count expectedCount)
     {
         List<(BinaryType Type, object? Info)> info = new(expectedCount);
 
@@ -115,7 +115,7 @@ internal class MemberTypeInfo : IBinaryWriteable, IEnumerable<(BinaryType Type, 
         return new(info);
     }
 
-    public void Write(BinaryWriter writer)
+    internal void Write(BinaryWriter writer)
     {
         foreach ((BinaryType type, _) in this)
         {

@@ -6,7 +6,15 @@ namespace BinaryFormat.Records;
 /// <summary>
 ///  Map of records.
 /// </summary>
-internal interface IReadOnlyRecordMap
+public interface IReadOnlyRecordMap
 {
+    /// <summary>
+    ///  Gets a record by its identifier.
+    /// </summary>
+    /// <remarks>
+    ///  <para>
+    ///   Not all records have identifiers, only ones that can be referenced by other records.
+    ///  </para>
+    /// </remarks>
     IRecord this[Id id] { get; }
 }

@@ -13,7 +13,7 @@ namespace BinaryFormat.Records;
 ///   </see>
 ///  </para>
 /// </remarks>
-internal sealed class BinaryObjectString : IRecord<BinaryObjectString>, IBinaryFormatParseable<BinaryObjectString>
+public sealed class BinaryObjectString : IWritableRecord, IRecord<BinaryObjectString>, IBinaryFormatParseable<BinaryObjectString>
 {
     public Id ObjectId { get; }
     public string Value { get; }
@@ -21,7 +21,7 @@ internal sealed class BinaryObjectString : IRecord<BinaryObjectString>, IBinaryF
 
     public static RecordType RecordType => RecordType.BinaryObjectString;
 
-    public BinaryObjectString(Id objectId, string value)
+    internal BinaryObjectString(Id objectId, string value)
     {
         ObjectId = objectId;
         Value = value;
@@ -30,7 +30,7 @@ internal sealed class BinaryObjectString : IRecord<BinaryObjectString>, IBinaryF
     static BinaryObjectString IBinaryFormatParseable<BinaryObjectString>.Parse(BinaryFormattedObject.IParseState state) =>
         new(state.Reader.ReadInt32(), state.Reader.ReadString());
 
-    public void Write(BinaryWriter writer)
+    void IWritableRecord.Write(BinaryWriter writer)
     {
         writer.Write((byte)RecordType);
         writer.Write(ObjectId);

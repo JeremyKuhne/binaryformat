@@ -3,7 +3,7 @@
 
 namespace BinaryFormat.Records;
 
-internal abstract class ObjectRecord : Record
+public abstract class ObjectRecord : Record
 {
     public abstract Id ObjectId { get; }
 

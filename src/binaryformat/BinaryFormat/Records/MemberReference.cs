@@ -13,18 +13,21 @@ namespace BinaryFormat.Records;
 ///   </see>
 ///  </para>
 /// </remarks>
-internal sealed class MemberReference : Record, IRecord<MemberReference>, IBinaryFormatParseable<MemberReference>
+public sealed class MemberReference : Record, IRecord<MemberReference>, IBinaryFormatParseable<MemberReference>
 {
+    /// <summary>
+    ///  The id of the referenced record.
+    /// </summary>
     public Id IdRef { get; }
 
-    public MemberReference(Id idRef) => IdRef = idRef;
+    internal MemberReference(Id idRef) => IdRef = idRef;
 
     public static RecordType RecordType => RecordType.MemberReference;
 
     static MemberReference IBinaryFormatParseable<MemberReference>.Parse(
         BinaryFormattedObject.IParseState state) => new(state.Reader.ReadInt32());
 
-    public override void Write(BinaryWriter writer)
+    private protected override void Write(BinaryWriter writer)
     {
         writer.Write((byte)RecordType);
         writer.Write(IdRef);

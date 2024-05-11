@@ -16,7 +16,7 @@ namespace BinaryFormat.Records;
 ///   </see>.
 ///  </para>
 /// </remarks>
-internal abstract class ClassRecord : ObjectRecord
+public abstract class ClassRecord : ObjectRecord
 {
     internal ClassInfo ClassInfo { get; }
     public IReadOnlyList<object?> MemberValues { get; }
@@ -111,7 +111,7 @@ internal abstract class ClassRecord : ObjectRecord
                 case BinaryType.Class:
                 case BinaryType.SystemClass:
                 case BinaryType.ObjectArray:
-                    if (memberValue is IRecord record)
+                    if (memberValue is IWritableRecord record)
                     {
                         record.Write(writer);
                     }

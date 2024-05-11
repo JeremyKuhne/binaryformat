@@ -13,22 +13,22 @@ namespace BinaryFormat.Records;
 ///   </see>
 ///  </para>
 /// </remarks>
-internal readonly struct ClassTypeInfo : IBinaryWriteable
+internal readonly struct ClassTypeInfo
 {
     public readonly string TypeName;
     public readonly Id LibraryId;
 
-    public ClassTypeInfo(string typeName, Id libraryId)
+    internal ClassTypeInfo(string typeName, Id libraryId)
     {
         TypeName = typeName;
         LibraryId = libraryId;
     }
 
-    public static ClassTypeInfo Parse(BinaryReader reader) => new(
+    internal static ClassTypeInfo Parse(BinaryReader reader) => new(
         reader.ReadString(),
         reader.ReadInt32());
 
-    public void Write(BinaryWriter writer)
+    internal void Write(BinaryWriter writer)
     {
         writer.Write(TypeName);
         writer.Write(LibraryId);

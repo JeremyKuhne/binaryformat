@@ -28,7 +28,7 @@ internal sealed class ClassWithId : ClassRecord, IRecord<ClassWithId>, IBinaryFo
     /// </summary>
     public Id MetadataId { get; }
 
-    public ClassWithId(Id id, ClassRecord metadataClass, IReadOnlyList<object?> memberValues)
+    internal ClassWithId(Id id, ClassRecord metadataClass, IReadOnlyList<object?> memberValues)
         : base(metadataClass.ClassInfo, metadataClass.MemberTypeInfo, memberValues)
     {
         ObjectId = id;
@@ -37,7 +37,7 @@ internal sealed class ClassWithId : ClassRecord, IRecord<ClassWithId>, IBinaryFo
         _metadataClass = metadataClass;
     }
 
-    public ClassWithId(Id id, ClassRecord metadataClass, params object?[] memberValues)
+    internal ClassWithId(Id id, ClassRecord metadataClass, params object?[] memberValues)
         : this(id, metadataClass, (IReadOnlyList<object?>)memberValues)
     {
     }
@@ -61,7 +61,7 @@ internal sealed class ClassWithId : ClassRecord, IRecord<ClassWithId>, IBinaryFo
             ReadObjectMemberValues(state, referencedRecord.MemberTypeInfo));
     }
 
-    public override void Write(BinaryWriter writer)
+    private protected override void Write(BinaryWriter writer)
     {
         writer.Write((byte)RecordType);
         writer.Write(ObjectId);

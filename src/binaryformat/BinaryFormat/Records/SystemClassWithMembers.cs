@@ -31,7 +31,7 @@ internal sealed class SystemClassWithMembers : ClassRecord, IRecord<SystemClassW
             ReadObjectMemberValues(state, memberTypeInfo));
     }
 
-    public override void Write(BinaryWriter writer)
+    private protected override void Write(BinaryWriter writer)
     {
         // Really shouldn't be writing this record type. It isn't as safe as the typed variant
         // and saves very little space.

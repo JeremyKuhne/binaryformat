@@ -5,7 +5,7 @@ using BinaryFormat.Records;
 
 namespace BinaryFormat;
 
-internal sealed partial class BinaryFormattedObject
+public sealed partial class BinaryFormattedObject
 {
     /// <summary>
     ///  Parsing state for <see cref="BinaryFormattedObject"/>.

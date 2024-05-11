@@ -13,7 +13,7 @@ namespace BinaryFormat.Records;
 ///   </see>
 ///  </para>
 /// </remarks>
-internal enum BinaryArrayType : byte
+public enum BinaryArrayType : byte
 {
     /// <summary>
     ///  A single-dimensional array.
@@ -30,10 +30,13 @@ internal enum BinaryArrayType : byte
     /// </summary>
     Rectangular = 2,
 
+/*
+    Not supported
+
     /// <summary>
     ///  A single-dimensional array where the lower bound index is greater than 0.
     /// </summary>
-    SingleOffset = 3,
+    SingleOffset = 3
 
     /// <summary>
     ///  A jagged array where the lower bound index is greater than 0.
@@ -44,4 +47,5 @@ internal enum BinaryArrayType : byte
     ///  Multi-dimensional arrays where the lower bound index of at least one of the dimensions is greater than 0.
     /// </summary>
     RectangularOffset = 5,
+*/
 }

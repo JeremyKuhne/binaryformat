@@ -10,7 +10,7 @@ using System.Runtime.Serialization.Formatters;
 
 namespace BinaryFormat;
 
-internal sealed partial class BinaryFormattedObject
+public sealed partial class BinaryFormattedObject
 {
     internal sealed class DefaultTypeResolver : ITypeResolver
     {

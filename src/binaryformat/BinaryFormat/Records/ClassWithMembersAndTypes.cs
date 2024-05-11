@@ -20,7 +20,7 @@ internal sealed class ClassWithMembersAndTypes :
 {
     public override Id LibraryId { get; }
 
-    public ClassWithMembersAndTypes(
+    internal ClassWithMembersAndTypes(
         ClassInfo classInfo,
         Id libraryId,
         MemberTypeInfo memberTypeInfo,
@@ -30,7 +30,7 @@ internal sealed class ClassWithMembersAndTypes :
         LibraryId = libraryId;
     }
 
-    public ClassWithMembersAndTypes(
+    internal ClassWithMembersAndTypes(
         ClassInfo classInfo,
         Id libraryId,
         MemberTypeInfo memberTypeInfo,
@@ -54,7 +54,7 @@ internal sealed class ClassWithMembersAndTypes :
             ReadObjectMemberValues(state, memberTypeInfo));
     }
 
-    public override void Write(BinaryWriter writer)
+    private protected override void Write(BinaryWriter writer)
     {
         writer.Write((byte)RecordType);
         ClassInfo.Write(writer);

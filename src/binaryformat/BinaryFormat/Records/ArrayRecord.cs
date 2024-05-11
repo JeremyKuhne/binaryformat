@@ -15,21 +15,21 @@ namespace BinaryFormat.Records;
 ///  can be coalesced into an <see cref="NullRecord.ObjectNullMultiple"/> or <see cref="NullRecord.ObjectNullMultiple256"/>
 ///  record.
 /// </devdoc>
-internal abstract class ArrayRecord : ObjectRecord, IEnumerable
+public abstract class ArrayRecord : ObjectRecord, IEnumerable
 {
-    public ArrayInfo ArrayInfo { get; }
+    private protected readonly ArrayInfo _arrayInfo;
 
     /// <summary>
     ///  Identifier for the array.
     /// </summary>
-    public override Id ObjectId => ArrayInfo.ObjectId;
+    public override Id ObjectId => _arrayInfo.ObjectId;
 
     /// <summary>
     ///  Length of the array.
     /// </summary>
-    public Count Length => ArrayInfo.Length;
+    public Count Length => _arrayInfo.Length;
 
-    public ArrayRecord(ArrayInfo arrayInfo) => ArrayInfo = arrayInfo;
+    internal ArrayRecord(ArrayInfo arrayInfo) => _arrayInfo = arrayInfo;
 
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
@@ -85,7 +85,7 @@ internal abstract class ArrayRecord : ObjectRecord, IEnumerable
 /// <summary>
 ///  Typed class for array records.
 /// </summary>
-internal abstract class ArrayRecord<T> : ArrayRecord, IEnumerable<T>
+public abstract class ArrayRecord<T> : ArrayRecord, IEnumerable<T>
 {
     /// <summary>
     ///  The array items.
@@ -102,7 +102,7 @@ internal abstract class ArrayRecord<T> : ArrayRecord, IEnumerable<T>
     /// </summary>
     public T this[int index] => ArrayObjects[index];
 
-    public ArrayRecord(ArrayInfo arrayInfo, IReadOnlyList<T> arrayObjects) : base(arrayInfo)
+    internal ArrayRecord(ArrayInfo arrayInfo, IReadOnlyList<T> arrayObjects) : base(arrayInfo)
     {
         if (arrayInfo.Length != arrayObjects.Count)
         {

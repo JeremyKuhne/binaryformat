@@ -13,7 +13,7 @@ namespace BinaryFormat.Records;
 ///   </see>
 ///  </para>
 /// </remarks>
-internal enum PrimitiveType : byte
+public enum PrimitiveType : byte
 {
     Boolean = 1,
     Byte,

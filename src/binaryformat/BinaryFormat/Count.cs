@@ -10,7 +10,7 @@ namespace BinaryFormat;
 ///  Idea here is that doing this makes it less likely we'll slip through cases where
 ///  we don't check for negative numbers. And also not confuse counts with ids.
 /// </devdoc>
-internal readonly struct Count : IEquatable<Count>
+public readonly struct Count : IEquatable<Count>
 {
     private readonly int _count;
 
@@ -19,9 +19,6 @@ internal readonly struct Count : IEquatable<Count>
         ArgumentOutOfRangeException.ThrowIfNegative(count);
         _count = count;
     }
-
-    public static Count Zero { get; } = 0;
-    public static Count One { get; } = 1;
 
     public static implicit operator int(Count value) => value._count;
     public static implicit operator Count(int value) => new(value);

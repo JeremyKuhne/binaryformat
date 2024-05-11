@@ -13,7 +13,7 @@ namespace BinaryFormat.Records;
 ///   </see>
 ///  </para>
 /// </remarks>
-internal enum BinaryType : byte
+public enum BinaryType : byte
 {
     /// <summary>
     ///  Type is defined by <see cref="PrimitiveType"/> and it is not a string.

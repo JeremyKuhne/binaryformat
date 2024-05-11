@@ -15,7 +15,7 @@ namespace BinaryFormat.Records;
 /// </remarks>
 internal sealed class ObjectNull : NullRecord, IRecord<ObjectNull>, IBinaryFormatParseable<ObjectNull>
 {
-    public static ObjectNull Instance { get; } = new();
+    internal static ObjectNull Instance { get; } = new();
 
     private ObjectNull() { }
 
@@ -26,7 +26,7 @@ internal sealed class ObjectNull : NullRecord, IRecord<ObjectNull>, IBinaryForma
     static ObjectNull IBinaryFormatParseable<ObjectNull>.Parse(
         BinaryFormattedObject.IParseState state) => Instance;
 
-    public void Write(BinaryWriter writer) => writer.Write((byte)RecordType);
+    internal static void Write(BinaryWriter writer) => writer.Write((byte)RecordType);
 
     public override bool Equals(object? obj) => obj is ObjectNull;
 

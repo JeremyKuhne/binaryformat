@@ -6,7 +6,7 @@ namespace BinaryFormat.Records;
 /// <summary>
 ///  Expresses that the object can be written with a <see cref="BinaryWriter"/>
 /// </summary>
-internal interface IBinaryWriteable
+internal interface IWritableRecord : IRecord
 {
     /// <summary>
     ///  Writes the current object to the given <paramref name="writer"/>.

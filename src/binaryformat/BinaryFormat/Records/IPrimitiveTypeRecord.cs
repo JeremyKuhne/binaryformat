@@ -6,7 +6,7 @@ namespace BinaryFormat.Records;
 /// <summary>
 ///  Record that represents a primitive type or an array of primitive types.
 /// </summary>
-internal interface IPrimitiveTypeRecord : IRecord
+public interface IPrimitiveTypeRecord : IRecord
 {
     PrimitiveType PrimitiveType { get; }
 }

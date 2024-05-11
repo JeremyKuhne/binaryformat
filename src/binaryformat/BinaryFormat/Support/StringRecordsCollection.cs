@@ -9,12 +9,14 @@ namespace BinaryFormat;
 ///  Helper to create and track records for <see cref="BinaryObjectString"/> and <see cref="MemberReference"/>
 ///  when duplicates are found.
 /// </summary>
-internal class StringRecordsCollection
+internal class StringRecordsCollection : IReadOnlyRecordMap
 {
     private readonly Dictionary<string, int> _strings = [];
     private readonly Dictionary<int, MemberReference> _memberReferences = [];
 
     public int CurrentId { get; set; }
+
+    public IRecord this[Id id] => _memberReferences[id];
 
     public StringRecordsCollection(int currentId) => CurrentId = currentId;
 

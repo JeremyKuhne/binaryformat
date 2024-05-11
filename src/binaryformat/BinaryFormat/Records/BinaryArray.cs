@@ -28,12 +28,12 @@ internal static partial class BinaryArray
 
         if (arrayType is not (BinaryArrayType.Single or BinaryArrayType.Rectangular or BinaryArrayType.Jagged))
         {
-            if (arrayType is BinaryArrayType.SingleOffset or BinaryArrayType.RectangularOffset or BinaryArrayType.JaggedOffset)
+            if ((int)arrayType is 3 or 4 or 5)
             {
                 throw new NotSupportedException("Offset arrays are not supported.");
             }
 
-            throw new SerializationException("Invalid array type.");
+            throw new SerializationException("Invalid or array type.");
         }
 
         int rank = state.Reader.ReadInt32();
@@ -96,24 +96,24 @@ internal static partial class BinaryArray
         (BinaryType type, object? info) = typeInfo[0];
 
         IBinaryArray array = type is not BinaryType.Primitive
-            ? new ObjectBinaryArray(rank, arrayType, lengths, new(objectId, length), typeInfo, state)
+            ? new BinaryArrayObject(rank, arrayType, lengths, new(objectId, length), typeInfo, state)
             : (PrimitiveType)info! switch
             {
-                PrimitiveType.Boolean => new PrimitiveBinaryArray<bool>(rank, arrayType, lengths, new(objectId, length), typeInfo, state.Reader),
-                PrimitiveType.Byte => new PrimitiveBinaryArray<byte>(rank, arrayType, lengths, new(objectId, length), typeInfo, state.Reader),
-                PrimitiveType.SByte => new PrimitiveBinaryArray<sbyte>(rank, arrayType, lengths, new(objectId, length), typeInfo, state.Reader),
-                PrimitiveType.Char => new PrimitiveBinaryArray<char>(rank, arrayType, lengths, new(objectId, length), typeInfo, state.Reader),
-                PrimitiveType.Int16 => new PrimitiveBinaryArray<short>(rank, arrayType, lengths, new(objectId, length), typeInfo, state.Reader),
-                PrimitiveType.UInt16 => new PrimitiveBinaryArray<ushort>(rank, arrayType, lengths, new(objectId, length), typeInfo, state.Reader),
-                PrimitiveType.Int32 => new PrimitiveBinaryArray<int>(rank, arrayType, lengths, new(objectId, length), typeInfo, state.Reader),
-                PrimitiveType.UInt32 => new PrimitiveBinaryArray<uint>(rank, arrayType, lengths, new(objectId, length), typeInfo, state.Reader),
-                PrimitiveType.Int64 => new PrimitiveBinaryArray<long>(rank, arrayType, lengths, new(objectId, length), typeInfo, state.Reader),
-                PrimitiveType.UInt64 => new PrimitiveBinaryArray<ulong>(rank, arrayType, lengths, new(objectId, length), typeInfo, state.Reader),
-                PrimitiveType.Single => new PrimitiveBinaryArray<float>(rank, arrayType, lengths, new(objectId, length), typeInfo, state.Reader),
-                PrimitiveType.Double => new PrimitiveBinaryArray<double>(rank, arrayType, lengths, new(objectId, length), typeInfo, state.Reader),
-                PrimitiveType.Decimal => new PrimitiveBinaryArray<decimal>(rank, arrayType, lengths, new(objectId, length), typeInfo, state.Reader),
-                PrimitiveType.DateTime => new PrimitiveBinaryArray<DateTime>(rank, arrayType, lengths, new(objectId, length), typeInfo, state.Reader),
-                PrimitiveType.TimeSpan => new PrimitiveBinaryArray<TimeSpan>(rank, arrayType, lengths, new(objectId, length), typeInfo, state.Reader),
+                PrimitiveType.Boolean => new BinaryArrayPrimitive<bool>(rank, arrayType, lengths, new(objectId, length), typeInfo, state.Reader),
+                PrimitiveType.Byte => new BinaryArrayPrimitive<byte>(rank, arrayType, lengths, new(objectId, length), typeInfo, state.Reader),
+                PrimitiveType.SByte => new BinaryArrayPrimitive<sbyte>(rank, arrayType, lengths, new(objectId, length), typeInfo, state.Reader),
+                PrimitiveType.Char => new BinaryArrayPrimitive<char>(rank, arrayType, lengths, new(objectId, length), typeInfo, state.Reader),
+                PrimitiveType.Int16 => new BinaryArrayPrimitive<short>(rank, arrayType, lengths, new(objectId, length), typeInfo, state.Reader),
+                PrimitiveType.UInt16 => new BinaryArrayPrimitive<ushort>(rank, arrayType, lengths, new(objectId, length), typeInfo, state.Reader),
+                PrimitiveType.Int32 => new BinaryArrayPrimitive<int>(rank, arrayType, lengths, new(objectId, length), typeInfo, state.Reader),
+                PrimitiveType.UInt32 => new BinaryArrayPrimitive<uint>(rank, arrayType, lengths, new(objectId, length), typeInfo, state.Reader),
+                PrimitiveType.Int64 => new BinaryArrayPrimitive<long>(rank, arrayType, lengths, new(objectId, length), typeInfo, state.Reader),
+                PrimitiveType.UInt64 => new BinaryArrayPrimitive<ulong>(rank, arrayType, lengths, new(objectId, length), typeInfo, state.Reader),
+                PrimitiveType.Single => new BinaryArrayPrimitive<float>(rank, arrayType, lengths, new(objectId, length), typeInfo, state.Reader),
+                PrimitiveType.Double => new BinaryArrayPrimitive<double>(rank, arrayType, lengths, new(objectId, length), typeInfo, state.Reader),
+                PrimitiveType.Decimal => new BinaryArrayPrimitive<decimal>(rank, arrayType, lengths, new(objectId, length), typeInfo, state.Reader),
+                PrimitiveType.DateTime => new BinaryArrayPrimitive<DateTime>(rank, arrayType, lengths, new(objectId, length), typeInfo, state.Reader),
+                PrimitiveType.TimeSpan => new BinaryArrayPrimitive<TimeSpan>(rank, arrayType, lengths, new(objectId, length), typeInfo, state.Reader),
                 _ => throw new SerializationException($"Invalid primitive type '{(PrimitiveType)info}'"),
             };
 

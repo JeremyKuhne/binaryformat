@@ -8,9 +8,9 @@ namespace BinaryFormat;
 
 #pragma warning disable SYSLIB0050 // Type or member is obsolete
 
-internal sealed partial class BinaryFormattedObject
+public sealed partial class BinaryFormattedObject
 {
-    internal sealed class Options
+    public sealed class Options
     {
         /// <summary>
         ///  How exactly assembly names need to match for deserialization.

@@ -13,7 +13,7 @@ namespace BinaryFormat.Records;
 ///   </see>
 ///  </para>
 /// </remarks>
-internal enum RecordType : byte
+public enum RecordType : byte
 {
     SerializedStreamHeader,
     ClassWithId,
@@ -32,8 +32,9 @@ internal enum RecordType : byte
     ObjectNullMultiple,
     ArraySinglePrimitive,
     ArraySingleObject,
-    ArraySingleString,
+    ArraySingleString
 
+/*
     /// <summary>
     ///  Used for remote method invocation. <see href="https://learn.microsoft.com/openspecs/windows_protocols/ms-nrbf/4c727b2f-2c30-468d-b12e-b56406f14862">
     ///  [MS-NRBF] 2.2</see>
@@ -45,4 +46,5 @@ internal enum RecordType : byte
     ///  [MS-NRBF] 2.2</see>
     /// </summary>
     MethodReturn
+*/
 }

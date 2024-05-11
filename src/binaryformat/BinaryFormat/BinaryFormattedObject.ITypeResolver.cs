@@ -3,7 +3,7 @@
 
 namespace BinaryFormat;
 
-internal sealed partial class BinaryFormattedObject
+public sealed partial class BinaryFormattedObject
 {
     /// <summary>
     ///  Resolver for types.

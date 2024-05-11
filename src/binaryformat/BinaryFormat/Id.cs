@@ -6,7 +6,7 @@ namespace BinaryFormat;
 /// <summary>
 ///  Identifier struct.
 /// </summary>
-internal readonly struct Id : IEquatable<Id>
+public readonly struct Id : IEquatable<Id>
 {
     private readonly int _id;
     private readonly bool _isNull = true;

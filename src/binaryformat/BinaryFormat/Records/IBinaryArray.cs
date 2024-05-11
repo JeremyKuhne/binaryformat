@@ -7,7 +7,7 @@ namespace BinaryFormat.Records;
 ///  Binary array record.
 /// </summary>
 /// <inheritdoc cref="BinaryArray"/>
-internal interface IBinaryArray : IRecord
+public interface IBinaryArray : IRecord
 {
     /// <summary>
     ///  Rank (dimensions) of the array.

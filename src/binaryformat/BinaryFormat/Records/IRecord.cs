@@ -6,7 +6,7 @@ namespace BinaryFormat.Records;
 /// <summary>
 ///  Non-generic record base interface.
 /// </summary>
-internal interface IRecord : IBinaryWriteable
+public interface IRecord
 {
     /// <summary>
     ///  Id for the record, or null if the record has no id.

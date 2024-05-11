@@ -10,18 +10,15 @@ using System.Text;
 namespace BinaryFormat;
 
 /// <summary>
-///  Object model for the binary format put out by BinaryFormatter. It parses and creates a model but does not
-///  instantiate any reference types outside of string.
+///  Object model for the binary format (NRBF) put out by BinaryFormatter. It parses and creates a model but does not
+///  instantiate any reference types outside of <see langword="string"/> and arrays of <see cref="PrimitiveType"/>.
 /// </summary>
 /// <remarks>
 ///  <para>
 ///   This is useful for explicitly controlling the rehydration of binary formatted data.
 ///  </para>
-///  <para>
-///   NOTE: Multidimensional and jagged arrays are not yet implemented.
-///  </para>
 /// </remarks>
-internal sealed partial class BinaryFormattedObject
+public sealed partial class BinaryFormattedObject
 {
 #pragma warning disable SYSLIB0050 // Type or member is obsolete
     internal static FormatterConverter DefaultConverter { get; } = new();
@@ -100,15 +97,22 @@ internal sealed partial class BinaryFormattedObject
     }
 
     /// <summary>
-    ///  The Id of the root record of the object graph.
+    ///  The root record of the object graph.
     /// </summary>
     public IRecord RootRecord => _recordMap[_rootRecord];
 
     /// <summary>
-    ///  Gets a record by it's identifier. Not all records have identifiers, only ones that
-    ///  can be referenced by other records.
+    ///  Gets a record by its identifier.
     /// </summary>
+    /// <remarks>
+    ///  <para>
+    ///   Not all records have identifiers, only ones that can be referenced by other records.
+    ///  </para>
+    /// </remarks>
     public IRecord this[Id id] => _recordMap[id];
 
+    /// <summary>
+    ///  Map of all records with identifiers.
+    /// </summary>
     public IReadOnlyRecordMap RecordMap => _recordMap;
 }

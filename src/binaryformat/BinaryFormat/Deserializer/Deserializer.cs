@@ -226,7 +226,7 @@ internal sealed partial class Deserializer : IDeserializer
             {
                 Array? values = arrayRecord switch
                 {
-                    ArraySingleString stringArray => stringArray.GetStringValues(_recordMap).ToArray(),
+                    ArraySingleString stringArray => stringArray.ToArray(),
                     IPrimitiveTypeRecord primitiveArray => primitiveArray.GetPrimitiveArray(),
                     _ => null
                 };

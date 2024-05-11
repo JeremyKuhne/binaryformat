@@ -13,25 +13,25 @@ namespace BinaryFormat.Records;
 ///   </see>
 ///  </para>
 /// </remarks>
-internal readonly struct ArrayInfo : IBinaryWriteable
+internal readonly struct ArrayInfo
 {
-    public Id ObjectId { get; }
-    public Count Length { get; }
+    internal Id ObjectId { get; }
+    internal Count Length { get; }
 
-    public ArrayInfo(Id objectId, Count length)
+    internal ArrayInfo(Id objectId, Count length)
     {
         Length = length;
         ObjectId = objectId;
     }
 
-    public static Id Parse(BinaryReader reader, out Count length)
+    internal static Id Parse(BinaryReader reader, out Count length)
     {
         Id id = reader.ReadInt32();
         length = reader.ReadInt32();
         return id;
     }
 
-    public readonly void Write(BinaryWriter writer)
+    internal readonly void Write(BinaryWriter writer)
     {
         writer.Write(ObjectId);
         writer.Write(Length);

@@ -69,12 +69,12 @@ public class BinaryFormattedObjectTests : SerializationTest<FormattedObjectSeria
         });
 
         ArraySingleObject array = (ArraySingleObject)format[2];
-        array.ArrayInfo.ObjectId.Should().Be(2);
-        array.ArrayInfo.Length.Should().Be(0);
+        array.ObjectId.Should().Be(2);
+        array.Length.Should().Be(0);
 
         array = (ArraySingleObject)format[3];
-        array.ArrayInfo.ObjectId.Should().Be(3);
-        array.ArrayInfo.Length.Should().Be(0);
+        array.ObjectId.Should().Be(3);
+        array.Length.Should().Be(0);
     }
 
     [Fact]
@@ -110,15 +110,15 @@ public class BinaryFormattedObjectTests : SerializationTest<FormattedObjectSeria
         });
 
         ArraySingleObject array = (ArraySingleObject)format[2];
-        array.ArrayInfo.ObjectId.Should().Be(2);
-        array.ArrayInfo.Length.Should().Be(1);
+        array.ObjectId.Should().Be(2);
+        array.Length.Should().Be(1);
         BinaryObjectString value = (BinaryObjectString)array.ArrayObjects[0]!;
         value.ObjectId.Should().Be(4);
         value.Value.Should().Be("This");
 
         array = (ArraySingleObject)format[3];
-        array.ArrayInfo.ObjectId.Should().Be(3);
-        array.ArrayInfo.Length.Should().Be(1);
+        array.ObjectId.Should().Be(3);
+        array.Length.Should().Be(1);
         value = (BinaryObjectString)array.ArrayObjects[0]!;
         value.ObjectId.Should().Be(5);
         value.Value.Should().Be("That");
@@ -168,15 +168,15 @@ public class BinaryFormattedObjectTests : SerializationTest<FormattedObjectSeria
 
         ArrayRecord<object> array = (ArrayRecord<object>)format[(MemberReference)systemClass.MemberValues[5]!];
 
-        array.ArrayInfo.ObjectId.Should().Be(2);
-        array.ArrayInfo.Length.Should().Be(3);
+        array.ObjectId.Should().Be(2);
+        array.Length.Should().Be(3);
         BinaryObjectString value = (BinaryObjectString)array.ArrayObjects[0];
         value.ObjectId.Should().Be(4);
         value.Value.Should().BeOneOf("Yowza", "Youza", "Meeza");
 
         array = (ArrayRecord<object>)format[(MemberReference)systemClass["Values"]!];
-        array.ArrayInfo.ObjectId.Should().Be(3);
-        array.ArrayInfo.Length.Should().Be(3);
+        array.ObjectId.Should().Be(3);
+        array.Length.Should().Be(3);
         array.ArrayObjects[0].Should().BeNull();
     }
 
@@ -280,7 +280,7 @@ public class BinaryFormattedObjectTests : SerializationTest<FormattedObjectSeria
         BinaryFormattedObject format = new(Serialize(new int[] { 10, 9, 8, 7 }));
 
         ArraySinglePrimitive<int> array = (ArraySinglePrimitive<int>)format[1];
-        array.ArrayInfo.Length.Should().Be(4);
+        array.Length.Should().Be(4);
         array.PrimitiveType.Should().Be(PrimitiveType.Int32);
         array.ArrayObjects.Should().BeEquivalentTo(new object[] { 10, 9, 8, 7 });
     }
@@ -290,9 +290,9 @@ public class BinaryFormattedObjectTests : SerializationTest<FormattedObjectSeria
     {
         BinaryFormattedObject format = new(Serialize(new string[] { "Monday", "Tuesday", "Wednesday" }));
         ArraySingleString array = (ArraySingleString)format[1];
-        array.ArrayInfo.ObjectId.Should().Be(1);
-        array.ArrayInfo.Length.Should().Be(3);
-        BinaryObjectString value = (BinaryObjectString)array.ArrayObjects[0]!;
+        array.ObjectId.Should().Be(1);
+        array.Length.Should().Be(3);
+        array.ArrayObjects[0].Should().Be("Monday");
     }
 
     [Fact]
@@ -300,18 +300,17 @@ public class BinaryFormattedObjectTests : SerializationTest<FormattedObjectSeria
     {
         BinaryFormattedObject format = new(Serialize(new string?[] { "Monday", null, "Wednesday", null, null, null }));
         ArraySingleString array = (ArraySingleString)format[1];
-        array.ArrayInfo.ObjectId.Should().Be(1);
-        array.ArrayInfo.Length.Should().Be(6);
+        array.ObjectId.Should().Be(1);
+        array.Length.Should().Be(6);
         array.ArrayObjects.Should().BeEquivalentTo(new object?[]
         {
-            new BinaryObjectString(2, "Monday"),
+            "Monday",
             null,
-            new BinaryObjectString(3, "Wednesday"),
+            "Wednesday",
             null,
             null,
             null
         });
-        BinaryObjectString value = (BinaryObjectString)array.ArrayObjects[0]!;
     }
 
     [Fact]
@@ -319,11 +318,9 @@ public class BinaryFormattedObjectTests : SerializationTest<FormattedObjectSeria
     {
         BinaryFormattedObject format = new(Serialize(new string[] { "Monday", "Tuesday", "Monday" }));
         ArraySingleString array = (ArraySingleString)format[1];
-        array.ArrayInfo.ObjectId.Should().Be(1);
-        array.ArrayInfo.Length.Should().Be(3);
-        BinaryObjectString value = (BinaryObjectString)array.ArrayObjects[0]!;
-        MemberReference reference = (MemberReference)array.ArrayObjects[2]!;
-        reference.IdRef.Should().Be(value.ObjectId);
+        array.ObjectId.Should().Be(1);
+        array.Length.Should().Be(3);
+        array.ArrayObjects[0].Should().BeSameAs(array.ArrayObjects[2]);
     }
 
     [Fact]
@@ -331,7 +328,7 @@ public class BinaryFormattedObjectTests : SerializationTest<FormattedObjectSeria
     {
         BinaryFormattedObject format = new(Serialize(new ObjectWithNullableObjects()));
         ClassWithMembersAndTypes classRecord = (ClassWithMembersAndTypes)format.RootRecord;
-        BinaryLibrary library = (BinaryLibrary)format[classRecord.LibraryId];
+        format[classRecord.LibraryId].Should().BeOfType<BinaryLibrary>();
     }
 
     [Fact]
@@ -339,7 +336,7 @@ public class BinaryFormattedObjectTests : SerializationTest<FormattedObjectSeria
     {
         BinaryFormattedObject format = new(Serialize(new NestedObjectWithNullableObjects()));
         ClassWithMembersAndTypes classRecord = (ClassWithMembersAndTypes)format.RootRecord;
-        BinaryLibrary library = (BinaryLibrary)format[classRecord.LibraryId];
+        format[classRecord.LibraryId].Should().BeOfType<BinaryLibrary>();
     }
 
     [Serializable]
@@ -351,7 +348,6 @@ public class BinaryFormattedObjectTests : SerializationTest<FormattedObjectSeria
 #pragma warning disable IDE0051 // Remove unused private members
 #pragma warning disable CS0414  // Field is assigned but its value is never used
 #pragma warning disable CS0649  // Field is never assigned to, and will always have its default value null
-#pragma warning disable CA1823 // Avoid unused private fields
     [Serializable]
     private class ObjectWithNullableObjects
     {
@@ -392,5 +388,4 @@ public class BinaryFormattedObjectTests : SerializationTest<FormattedObjectSeria
 #pragma warning restore IDE0051 // Remove unused private members
 #pragma warning restore CS0414  // Field is assigned but its value is never used
 #pragma warning restore CS0649  // Field is never assigned to, and will always have its default value null
-#pragma warning restore CA1823 // Avoid unused private fields
 }

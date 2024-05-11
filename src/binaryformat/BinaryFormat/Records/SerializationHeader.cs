@@ -37,7 +37,7 @@ internal sealed class SerializationHeader : IRecord<SerializationHeader>, IBinar
 
     public static RecordType RecordType => RecordType.SerializedStreamHeader;
 
-    public static SerializationHeader Default => new()
+    internal static SerializationHeader Default => new()
     {
         MajorVersion = 1,
         RootId = 1,

@@ -13,7 +13,7 @@ namespace BinaryFormat.Records;
 ///   </see>
 ///  </para>
 /// </remarks>
-internal sealed class MemberPrimitiveTyped :
+public sealed class MemberPrimitiveTyped :
     Record,
     IRecord<MemberPrimitiveTyped>,
     IPrimitiveTypeRecord,
@@ -22,7 +22,7 @@ internal sealed class MemberPrimitiveTyped :
     public PrimitiveType PrimitiveType { get; }
     public object Value { get; }
 
-    public MemberPrimitiveTyped(PrimitiveType primitiveType, object value)
+    internal MemberPrimitiveTyped(PrimitiveType primitiveType, object value)
     {
         PrimitiveType = primitiveType;
         Value = value;
@@ -52,7 +52,7 @@ internal sealed class MemberPrimitiveTyped :
             ReadPrimitiveType(state.Reader, primitiveType));
     }
 
-    public override void Write(BinaryWriter writer)
+    private protected override void Write(BinaryWriter writer)
     {
         writer.Write((byte)RecordType);
         writer.Write((byte)PrimitiveType);

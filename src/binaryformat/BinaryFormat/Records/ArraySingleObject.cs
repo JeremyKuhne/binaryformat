@@ -13,24 +13,24 @@ namespace BinaryFormat.Records;
 ///   </see>
 ///  </para>
 /// </remarks>
-internal sealed class ArraySingleObject :
+public sealed class ArraySingleObject :
     ArrayRecord<object?>,
     IRecord<ArraySingleObject>,
     IBinaryFormatParseable<ArraySingleObject>
 {
     public static RecordType RecordType => RecordType.ArraySingleObject;
 
-    public ArraySingleObject(Id objectId, IReadOnlyList<object?> arrayObjects)
+    internal ArraySingleObject(Id objectId, IReadOnlyList<object?> arrayObjects)
         : base(new ArrayInfo(objectId, arrayObjects.Count), arrayObjects)
     { }
 
     static ArraySingleObject IBinaryFormatParseable<ArraySingleObject>.Parse(BinaryFormattedObject.IParseState state) =>
         new(ArrayInfo.Parse(state.Reader, out Count length), ReadObjectArrayValues(state, length));
 
-    public override void Write(BinaryWriter writer)
+    private protected override void Write(BinaryWriter writer)
     {
         writer.Write((byte)RecordType);
-        ArrayInfo.Write(writer);
+        _arrayInfo.Write(writer);
         WriteRecords(writer, ArrayObjects, coalesceNulls: true);
     }
 }

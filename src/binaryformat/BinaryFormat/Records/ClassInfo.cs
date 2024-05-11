@@ -13,20 +13,20 @@ namespace BinaryFormat.Records;
 ///   </see>
 ///  </para>
 /// </remarks>
-internal class ClassInfo : IBinaryWriteable
+internal class ClassInfo
 {
     public Id ObjectId { get; }
     public string Name { get; }
     public IReadOnlyList<string> MemberNames { get; }
 
-    public ClassInfo(Id objectId, string name, IReadOnlyList<string> memberNames)
+    internal ClassInfo(Id objectId, string name, IReadOnlyList<string> memberNames)
     {
         ObjectId = objectId;
         Name = name;
         MemberNames = memberNames;
     }
 
-    public static ClassInfo Parse(BinaryReader reader, out Count memberCount)
+    internal static ClassInfo Parse(BinaryReader reader, out Count memberCount)
     {
         Id objectId = reader.ReadInt32();
         string name = reader.ReadString();
@@ -40,7 +40,7 @@ internal class ClassInfo : IBinaryWriteable
         return new(objectId, name, memberNames.ToArray());
     }
 
-    public void Write(BinaryWriter writer)
+    internal void Write(BinaryWriter writer)
     {
         writer.Write(ObjectId);
         writer.Write(Name);

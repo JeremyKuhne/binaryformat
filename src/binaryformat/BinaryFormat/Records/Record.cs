@@ -9,8 +9,11 @@ namespace BinaryFormat.Records;
 /// <summary>
 ///  Base record class.
 /// </summary>
-internal abstract class Record : IRecord
+public abstract class Record : IWritableRecord
 {
+    // Prevent creating outside of the assembly.
+    private protected Record() { }
+
     Id IRecord.Id => Id;
 
     private protected virtual Id Id => Id.Null;
@@ -129,8 +132,8 @@ internal abstract class Record : IRecord
             RecordType.ArraySinglePrimitive => ReadArraySinglePrimitive(state),
             RecordType.ArraySingleObject => ReadSpecificRecord<ArraySingleObject>(state),
             RecordType.ArraySingleString => ReadSpecificRecord<ArraySingleString>(state),
-            RecordType.MethodCall => throw new NotSupportedException(),
-            RecordType.MethodReturn => throw new NotSupportedException(),
+            // RecordType.MethodCall => throw new NotSupportedException(),
+            // RecordType.MethodReturn => throw new NotSupportedException(),
             _ => throw new SerializationException("Invalid record type."),
         };
 
@@ -214,7 +217,7 @@ internal abstract class Record : IRecord
                 nullCount = 0;
             }
 
-            if (@object is not IRecord record || record is NullRecord)
+            if (@object is not IWritableRecord record || record is NullRecord)
             {
                 throw new ArgumentException("Invalid record.", nameof(objects));
             }
@@ -263,5 +266,6 @@ internal abstract class Record : IRecord
         };
     }
 
-    public abstract void Write(BinaryWriter writer);
+    private protected abstract void Write(BinaryWriter writer);
+    void IWritableRecord.Write(BinaryWriter writer) => Write(writer);
 }

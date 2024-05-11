@@ -240,7 +240,7 @@ internal static class BinaryFormatWriter
 
         StringRecordsCollection strings = new(currentId: 3);
 
-        new ArraySingleString(2, new ListConverter<string, object?>(list, strings.GetStringRecord)).Write(writer);
+        new ArraySingleString(2, new ListConverter<string, object?>(list, strings.GetStringRecord), strings).Write(writer);
     }
 
     /// <summary>
@@ -391,11 +391,11 @@ internal static class BinaryFormatWriter
             if (primitiveType == PrimitiveType.String)
             {
                 StringRecordsCollection strings = new(currentId: 2);
-                new ArraySingleString(1, ListConverter.GetPrimitiveConverter(array, strings)).Write(writer);
+                new ArraySingleString(1, ListConverter.GetPrimitiveConverter(array, strings), strings).Write(writer);
                 return true;
             }
 
-            IRecord record = primitiveType switch
+            IWritableRecord record = primitiveType switch
             {
                 PrimitiveType.Boolean => new ArraySinglePrimitive<bool>(
                     1, new ListConverter<object, bool>(array, o => (bool)o!)),

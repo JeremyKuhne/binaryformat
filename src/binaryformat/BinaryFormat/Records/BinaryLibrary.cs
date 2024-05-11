@@ -13,13 +13,13 @@ namespace BinaryFormat.Records;
 ///   </see>
 ///  </para>
 /// </remarks>
-internal sealed class BinaryLibrary : IRecord<BinaryLibrary>, IBinaryFormatParseable<BinaryLibrary>
+public sealed class BinaryLibrary : IRecord<BinaryLibrary>, IBinaryFormatParseable<BinaryLibrary>
 {
     public Id LibraryId { get; }
     public string LibraryName { get; }
     Id IRecord.Id => LibraryId;
 
-    public BinaryLibrary(Id libraryId, string libraryName)
+    internal BinaryLibrary(Id libraryId, string libraryName)
     {
         LibraryId = libraryId;
         LibraryName = libraryName;
@@ -30,7 +30,7 @@ internal sealed class BinaryLibrary : IRecord<BinaryLibrary>, IBinaryFormatParse
     static BinaryLibrary IBinaryFormatParseable<BinaryLibrary>.Parse(BinaryFormattedObject.IParseState state) =>
         new(state.Reader.ReadInt32(), state.Reader.ReadString());
 
-    public void Write(BinaryWriter writer)
+    internal void Write(BinaryWriter writer)
     {
         writer.Write((byte)RecordType);
         writer.Write(LibraryId);

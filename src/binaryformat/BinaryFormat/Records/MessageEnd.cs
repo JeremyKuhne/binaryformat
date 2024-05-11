@@ -8,7 +8,7 @@ namespace BinaryFormat.Records;
 /// </summary>
 internal sealed class MessageEnd : IRecord<MessageEnd>, IBinaryFormatParseable<MessageEnd>
 {
-    public static MessageEnd Instance { get; } = new();
+    internal static MessageEnd Instance { get; } = new();
 
     private MessageEnd() { }
 
@@ -17,5 +17,5 @@ internal sealed class MessageEnd : IRecord<MessageEnd>, IBinaryFormatParseable<M
     static MessageEnd IBinaryFormatParseable<MessageEnd>.Parse(
         BinaryFormattedObject.IParseState state) => Instance;
 
-    public void Write(BinaryWriter writer) => writer.Write((byte)RecordType);
+    internal static void Write(BinaryWriter writer) => writer.Write((byte)RecordType);
 }
