@@ -15,15 +15,18 @@ public class FormattedObjectSerializer : ISerializer
         FormatterAssemblyStyle assemblyMatching = FormatterAssemblyStyle.Simple,
         ISurrogateSelector? surrogateSelector = null)
     {
-        BinaryFormattedObject format = new(
-            stream,
-            new()
-            {
-                Binder = binder,
-                SurrogateSelector = surrogateSelector,
-                AssemblyMatching = assemblyMatching
-            });
+        BinaryFormattedObject.Options options = new()
+        {
+            Binder = binder,
+            SurrogateSelector = surrogateSelector,
+        };
 
+        if (assemblyMatching != FormatterAssemblyStyle.Simple)
+        {
+            options.Flags = BinaryFormattedObject.OptionFlags.MatchFullAssemblyNames | BinaryFormattedObject.OptionFlags.RequireFieldsHaveData;
+        }
+
+        BinaryFormattedObject format = new(stream, options);
         return format.Deserialize();
     }
 }

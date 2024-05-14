@@ -2,7 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters;
 
 namespace BinaryFormat;
 
@@ -13,9 +12,9 @@ public sealed partial class BinaryFormattedObject
     public sealed class Options
     {
         /// <summary>
-        ///  How exactly assembly names need to match for deserialization.
+        ///  Various option flags.
         /// </summary>
-        public FormatterAssemblyStyle AssemblyMatching { get; set; } = FormatterAssemblyStyle.Simple;
+        public OptionFlags Flags { get; set; }
 
         /// <summary>
         ///  Type name binder.

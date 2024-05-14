@@ -4,7 +4,6 @@
 using BinaryFormat.Records;
 using System.Reflection;
 using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters;
 
 namespace BinaryFormat.Deserializer;
 
@@ -56,7 +55,7 @@ internal sealed class ClassRecordFieldInfoDeserializer : ClassRecordDeserializer
             }
             catch (KeyNotFoundException)
             {
-                if (Deserializer.Options.AssemblyMatching == FormatterAssemblyStyle.Simple
+                if (!Deserializer.Options.Flags.HasFlag(BinaryFormattedObject.OptionFlags.RequireFieldsHaveData)
                     || field.GetCustomAttribute<OptionalFieldAttribute>() is not null)
                 {
                     _currentFieldIndex++;

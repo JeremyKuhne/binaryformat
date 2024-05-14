@@ -4,9 +4,6 @@
 using BinaryFormat.Records;
 using System.Reflection;
 using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters;
-
-#pragma warning disable SYSLIB0050 // Type or member is obsolete
 
 namespace BinaryFormat;
 
@@ -14,7 +11,7 @@ public sealed partial class BinaryFormattedObject
 {
     internal sealed class DefaultTypeResolver : ITypeResolver
     {
-        private readonly FormatterAssemblyStyle _assemblyMatching;
+        private readonly OptionFlags _options;
         private readonly SerializationBinder? _binder;
         private readonly IReadOnlyRecordMap _recordMap;
 
@@ -30,7 +27,7 @@ public sealed partial class BinaryFormattedObject
 
         internal DefaultTypeResolver(Options options, IReadOnlyRecordMap recordMap)
         {
-            _assemblyMatching = options.AssemblyMatching;
+            _options = options.Flags;
             _binder = options.Binder;
             _assemblies[Id.Null] = TypeInfo.MscorlibAssembly;
             _recordMap = recordMap;
@@ -87,7 +84,7 @@ public sealed partial class BinaryFormattedObject
                 }
                 catch
                 {
-                    if (_assemblyMatching != FormatterAssemblyStyle.Simple)
+                    if (_options.HasFlag(OptionFlags.MatchFullAssemblyNames))
                     {
                         throw;
                     }
@@ -98,7 +95,7 @@ public sealed partial class BinaryFormattedObject
                 _assemblies.Add(libraryId, assembly);
             }
 
-            Type? type = _assemblyMatching != FormatterAssemblyStyle.Simple
+            Type? type = _options.HasFlag(OptionFlags.MatchFullAssemblyNames)
                 ? assembly.GetType(typeName)
                 : GetSimplyNamedTypeFromAssembly(assembly, typeName);
 
@@ -158,5 +155,3 @@ public sealed partial class BinaryFormattedObject
         }
     }
 }
-
-#pragma warning restore SYSLIB0050 // Type or member is obsolete
