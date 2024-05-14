@@ -27,6 +27,8 @@ public sealed class ArraySingleString : ArrayRecord<string?>, IRecord<ArraySingl
         _records = arrayObjects;
     }
 
+    public override BinaryType ElementType => BinaryType.String;
+
     static ArraySingleString IBinaryFormatParseable<ArraySingleString>.Parse(BinaryFormattedObject.IParseState state) => new(
         ArrayInfo.Parse(state.Reader, out Count length),
         ReadObjectArrayValues(state, length), state.RecordMap);

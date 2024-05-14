@@ -24,6 +24,8 @@ public sealed class ArraySinglePrimitive<T> :
 
     public static RecordType RecordType => RecordType.ArraySinglePrimitive;
 
+    public override BinaryType ElementType => BinaryType.Primitive;
+
     internal ArraySinglePrimitive(Id objectId, IReadOnlyList<T> arrayObjects)
         : base(new ArrayInfo(objectId, arrayObjects.Count), arrayObjects)
     {

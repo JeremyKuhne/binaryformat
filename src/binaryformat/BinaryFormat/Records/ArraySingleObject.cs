@@ -24,6 +24,8 @@ public sealed class ArraySingleObject :
         : base(new ArrayInfo(objectId, arrayObjects.Count), arrayObjects)
     { }
 
+    public override BinaryType ElementType => BinaryType.Object;
+
     static ArraySingleObject IBinaryFormatParseable<ArraySingleObject>.Parse(BinaryFormattedObject.IParseState state) =>
         new(ArrayInfo.Parse(state.Reader, out Count length), ReadObjectArrayValues(state, length));
 

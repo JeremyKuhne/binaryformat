@@ -128,7 +128,7 @@ public abstract partial class BinaryArray<T> : ArrayRecord<T>, IRecord<BinaryArr
     public BinaryArrayType ArrayType { get; }
     public IReadOnlyList<int> Lengths { get; }
 
-    public BinaryType ElementType => _memberTypeInfo.Type;
+    public override BinaryType ElementType => _memberTypeInfo.Type;
 
     public object? ElementTypeInfo => _memberTypeInfo.Info;
 

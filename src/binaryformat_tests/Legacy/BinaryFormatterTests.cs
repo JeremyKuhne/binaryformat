@@ -339,7 +339,7 @@ public partial class BinaryFormatterTests
 #pragma warning restore SYSLIB1045 // Convert to 'GeneratedRegexAttribute'.
     }
 
-    [Fact]//(Skip = "Only used to update test data.")]
+    [Fact(Skip = "Only used to update test data.")]
     public void UpdateTestData()
     {
         List<string> serializedHashes = [];

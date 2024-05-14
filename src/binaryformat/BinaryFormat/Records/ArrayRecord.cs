@@ -31,6 +31,8 @@ public abstract class ArrayRecord : ObjectRecord, IEnumerable
 
     internal ArrayRecord(ArrayInfo arrayInfo) => _arrayInfo = arrayInfo;
 
+    public abstract BinaryType ElementType { get; }
+
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
     private protected abstract IEnumerator GetEnumerator();

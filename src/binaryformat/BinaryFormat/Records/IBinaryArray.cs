@@ -25,12 +25,7 @@ public interface IBinaryArray : IRecord
     IReadOnlyList<int> Lengths { get; }
 
     /// <summary>
-    ///  Array element type.
-    /// </summary>
-    BinaryType ElementType { get; }
-
-    /// <summary>
-    ///  Array element type information. Varies with <see cref="ElementType"/>.
+    ///  Additional array element type information. Varies with <see cref="ArrayRecord.ElementType"/>.
     /// </summary>
     /// <remarks>
     ///  <para>
