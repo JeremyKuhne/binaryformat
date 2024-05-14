@@ -52,7 +52,7 @@ public partial class BinaryFormatterTests
 
     private static (object, TypeSerializableValue[])[]? s_serializableObjects;
 
-    public static IEnumerable<(object, TypeSerializableValue[])> RawSerializableObjects()
+    public static IEnumerable<(object @Object, TypeSerializableValue[])> RawSerializableObjects()
     {
         if (s_serializableObjects is null)
         {
@@ -1271,7 +1271,7 @@ public partial class BinaryFormatterTests
             const int FuzzingsPerObject = 3;
             for (int i = 0; i < FuzzingsPerObject; i++)
             {
-                data.Add(record.Item1, rand);
+                data.Add(record.Object, rand);
             }
         }
 

@@ -92,12 +92,11 @@ internal static partial class BinaryArray
             }
         }
 
-        MemberTypeInfo typeInfo = MemberTypeInfo.Parse(state.Reader, 1);
-        (BinaryType type, object? info) = typeInfo[0];
+        MemberTypeInfo typeInfo = MemberTypeInfo.Parse(state.Reader);
 
-        IBinaryArray array = type is not BinaryType.Primitive
+        IBinaryArray array = typeInfo.Type is not BinaryType.Primitive
             ? new BinaryArrayObject(rank, arrayType, lengths, new(objectId, length), typeInfo, state)
-            : (PrimitiveType)info! switch
+            : (PrimitiveType)typeInfo.Info! switch
             {
                 PrimitiveType.Boolean => new BinaryArrayPrimitive<bool>(rank, arrayType, lengths, new(objectId, length), typeInfo, state.Reader),
                 PrimitiveType.Byte => new BinaryArrayPrimitive<byte>(rank, arrayType, lengths, new(objectId, length), typeInfo, state.Reader),
@@ -114,9 +113,37 @@ internal static partial class BinaryArray
                 PrimitiveType.Decimal => new BinaryArrayPrimitive<decimal>(rank, arrayType, lengths, new(objectId, length), typeInfo, state.Reader),
                 PrimitiveType.DateTime => new BinaryArrayPrimitive<DateTime>(rank, arrayType, lengths, new(objectId, length), typeInfo, state.Reader),
                 PrimitiveType.TimeSpan => new BinaryArrayPrimitive<TimeSpan>(rank, arrayType, lengths, new(objectId, length), typeInfo, state.Reader),
-                _ => throw new SerializationException($"Invalid primitive type '{(PrimitiveType)info}'"),
+                _ => throw new SerializationException($"Invalid primitive type '{(PrimitiveType)typeInfo.Info}'"),
             };
 
         return array;
+    }
+}
+
+public abstract partial class BinaryArray<T> : ArrayRecord<T>, IRecord<BinaryArrayObject>, IBinaryArray
+{
+    private readonly MemberTypeInfo _memberTypeInfo;
+
+    public Count Rank { get; }
+    public BinaryArrayType ArrayType { get; }
+    public IReadOnlyList<int> Lengths { get; }
+
+    public BinaryType ElementType => _memberTypeInfo.Type;
+
+    public object? ElementTypeInfo => _memberTypeInfo.Info;
+
+    internal BinaryArray(
+        Count rank,
+        BinaryArrayType arrayType,
+        IReadOnlyList<int> lengths,
+        ArrayInfo arrayInfo,
+        MemberTypeInfo typeInfo,
+        IReadOnlyList<T> values)
+        : base(arrayInfo, values)
+    {
+        Rank = rank;
+        ArrayType = arrayType;
+        _memberTypeInfo = typeInfo;
+        Lengths = lengths;
     }
 }

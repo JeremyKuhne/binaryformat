@@ -39,16 +39,14 @@ public abstract class ArrayRecord : ObjectRecord, IEnumerable
     ///  Reads records, expanding null records into individual entries.
     /// </summary>
     private protected static IReadOnlyList<object?> ReadObjectArrayValues(BinaryFormattedObject.IParseState state, Count count)
-        => ReadObjectArrayValues(state, BinaryType.Object, null, count);
+        => ReadObjectArrayValues(state, new(BinaryType.Object, null), count);
 
     /// <summary>
-    ///  Reads a count of object member values of <paramref name="type"/> with optional clarifying <paramref name="typeInfo"/>.
+    ///  Reads a count of object member values of <paramref name="memberTypeInfo"/>.
     /// </summary>
-    /// <exception cref="SerializationException"><paramref name="type"/> was unexpected.</exception>
     private protected static IReadOnlyList<object?> ReadObjectArrayValues(
         BinaryFormattedObject.IParseState state,
-        BinaryType type,
-        object? typeInfo,
+        MemberTypeInfo memberTypeInfo,
         int count)
     {
         if (count == 0)
@@ -59,7 +57,7 @@ public abstract class ArrayRecord : ObjectRecord, IEnumerable
         ArrayBuilder<object?> memberValues = new(count);
         for (int i = 0; i < count; i++)
         {
-            object value = ReadValue(state, type, typeInfo);
+            object value = ReadValue(state, memberTypeInfo);
             if (value is not NullRecord nullRecord)
             {
                 memberValues.Add(value);

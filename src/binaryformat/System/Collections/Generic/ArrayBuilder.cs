@@ -27,7 +27,7 @@ internal class ArrayBuilder<T>
     /// </param>
     internal ArrayBuilder(int expectedCount)
     {
-        _items = new T[Math.Min(expectedCount, MaxInitialArrayLength)];
+        _items = GC.AllocateUninitializedArray<T>(Math.Min(expectedCount, MaxInitialArrayLength));
         _maxCount = expectedCount;
     }
 

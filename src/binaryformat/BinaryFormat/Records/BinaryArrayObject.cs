@@ -7,26 +7,22 @@ namespace BinaryFormat.Records;
 ///  <see cref="BinaryArray"/> of objects.
 /// </summary>
 /// <inheritdoc cref="BinaryArray"/>
-public sealed class BinaryArrayObject : ArrayRecord<object?>, IRecord<BinaryArrayObject>, IBinaryArray
+internal sealed class BinaryArrayObject : BinaryArray<object?>
 {
-    public Count Rank { get; }
-    public BinaryArrayType ArrayType { get; }
-    public MemberTypeInfo TypeInfo { get; }
-    public IReadOnlyList<int> Lengths { get; }
-
     internal BinaryArrayObject(
         Count rank,
-        BinaryArrayType type,
+        BinaryArrayType arrayType,
         IReadOnlyList<int> lengths,
         ArrayInfo arrayInfo,
         MemberTypeInfo typeInfo,
-        BinaryFormattedObject.IParseState state)
-        : base(arrayInfo, ReadObjectArrayValues(state, typeInfo[0].Type, typeInfo[0].Info, arrayInfo.Length))
+        BinaryFormattedObject.IParseState state) : base(
+        rank,
+        arrayType,
+        lengths,
+        arrayInfo,
+        typeInfo,
+        ReadObjectArrayValues(state, typeInfo, arrayInfo.Length))
     {
-        Rank = rank;
-        ArrayType = type;
-        TypeInfo = typeInfo;
-        Lengths = lengths;
     }
 
     private protected override void Write(BinaryWriter writer) => throw new NotSupportedException();

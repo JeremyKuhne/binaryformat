@@ -31,9 +31,8 @@ internal sealed class ArrayRecordDeserializer : ObjectRecordDeserializer
         }
         else
         {
-            (BinaryType binaryType, object? info) = binaryArray.TypeInfo[0];
-
-            _elementType = binaryType switch
+            object? info = binaryArray.ElementTypeInfo;
+            _elementType = binaryArray.ElementType switch
             {
                 BinaryType.SystemClass => info is Type type
                     ? type

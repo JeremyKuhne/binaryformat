@@ -23,8 +23,10 @@
      SYSLIB0011: BinaryFormatter obsolete
      SYSLIB0050: Obsolete attribute
      SYSLIB0051: Formatters obsolete
+     IDE0028: Collection initialization can be initialized - doesn't work with TheoryData
+     IDE0059: Unecessary assignment of a value to ...
     -->
-    <NoWarn>$(NoWarn);CS1574;CS1580;CA1036;CA1051;CA1066;SYSLIB0011;SYSLIB0050;SYSLIB0051;xUnit1013</NoWarn>
+    <NoWarn>$(NoWarn);CS1574;CS1580;CA1036;CA1051;CA1066;SYSLIB0011;SYSLIB0050;SYSLIB0051;xUnit1013;IDE0028;IDE0059</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

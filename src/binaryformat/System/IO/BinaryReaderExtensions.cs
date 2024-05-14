@@ -115,7 +115,7 @@ internal static class BinaryReaderExtensions
             return (T[])(object)reader.ReadChars(count);
         }
 
-        T[] array = new T[count];
+        T[] array = GC.AllocateUninitializedArray<T>(count);
 
         fixed (T* a = array)
         {

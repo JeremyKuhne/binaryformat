@@ -27,7 +27,10 @@ public readonly struct Id : IEquatable<Id>
     public static Id Null => new(isNull: true);
     public bool IsNull => _isNull;
 
-    public static implicit operator int(Id value) => value._isNull ? throw new InvalidOperationException() : value._id;
+    public static implicit operator int(Id value) => value._isNull
+        ? throw new ArgumentException("Id is null, cannot cast to int.", nameof(value))
+        : value._id;
+
     public static implicit operator Id(int value) => new(value);
 
     public override bool Equals([NotNullWhen(true)] object? obj)

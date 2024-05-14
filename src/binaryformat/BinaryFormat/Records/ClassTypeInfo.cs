@@ -33,4 +33,6 @@ internal readonly struct ClassTypeInfo
         writer.Write(TypeName);
         writer.Write(LibraryId);
     }
+
+    public override string ToString() => $"{TypeName} Library: {LibraryId}";
 }

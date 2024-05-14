@@ -7,12 +7,8 @@ namespace BinaryFormat.Records;
 ///  <see cref="BinaryArray"/> of primitive values.
 /// </summary>
 /// <inheritdoc cref="BinaryArray"/>
-public sealed class BinaryArrayPrimitive<T> : ArrayRecord<T>, IRecord<BinaryArrayPrimitive<T>>, IBinaryArray, IPrimitiveTypeRecord where T : unmanaged
+internal sealed class BinaryArrayPrimitive<T> : BinaryArray<T>, IRecord<BinaryArrayPrimitive<T>>, IPrimitiveTypeRecord where T : unmanaged
 {
-    public Count Rank { get; }
-    public BinaryArrayType ArrayType { get; }
-    public MemberTypeInfo TypeInfo { get; }
-    public IReadOnlyList<int> Lengths { get; }
     public PrimitiveType PrimitiveType { get; }
 
     internal BinaryArrayPrimitive(
@@ -22,13 +18,9 @@ public sealed class BinaryArrayPrimitive<T> : ArrayRecord<T>, IRecord<BinaryArra
         ArrayInfo arrayInfo,
         MemberTypeInfo typeInfo,
         BinaryReader reader)
-        : base(arrayInfo, reader.ReadPrimitiveArray<T>(arrayInfo.Length))
+        : base(rank, arrayType, lengths, arrayInfo, typeInfo, reader.ReadPrimitiveArray<T>(arrayInfo.Length))
     {
-        Rank = rank;
-        ArrayType = arrayType;
-        TypeInfo = typeInfo;
-        Lengths = lengths;
-        PrimitiveType = (PrimitiveType)typeInfo[0].Info!;
+        PrimitiveType = (PrimitiveType)typeInfo.Info!;
     }
 
     private protected override void Write(BinaryWriter writer) => throw new NotSupportedException();

@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
+    <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
+
+    <!--
+     Turning off a number of warnings that would otherwise litter this project due to special
+     test type cases for binary formatting.
+
+     SYSLIB0011: BinaryFormatter obsolete
+     SYSLIB0050: Obsolete attribute
+     SYSLIB0051: Formatters obsolete
+    -->
+    <NoWarn>$(NoWarn);CS1574;CS1580;CA1036;CA1051;CA1066;SYSLIB0011;SYSLIB0050;SYSLIB0051</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <RuntimeHostConfigurationOption Include="System.Runtime.Serialization.EnableUnsafeBinaryFormatterSerialization" Value="true" />
+    <PackageReference Include="BenchmarkDotNet" Version="0.13.12" />
+    <ProjectReference Include="..\binaryformat_tests\binaryformat_tests.csproj" />
+  </ItemGroup>
+
+
+</Project>

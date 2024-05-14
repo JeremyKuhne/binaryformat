@@ -232,20 +232,18 @@ public abstract class Record : IWritableRecord
     }
 
     /// <summary>
-    ///  Reads an object member value of <paramref name="type"/> with optional clarifying <paramref name="typeInfo"/>.
+    ///  Reads an object member value of <paramref name="memberType"/>.
     /// </summary>
-    /// <exception cref="SerializationException"><paramref name="type"/> was unexpected.</exception>
     private protected static object ReadValue(
         BinaryFormattedObject.IParseState state,
-        BinaryType type,
-        object? typeInfo)
+        MemberTypeInfo memberType)
     {
-        if (type == BinaryType.Primitive)
+        if (memberType.Type == BinaryType.Primitive)
         {
-            return ReadPrimitiveType(state.Reader, (PrimitiveType)typeInfo!);
+            return ReadPrimitiveType(state.Reader, (PrimitiveType)memberType.Info!);
         }
 
-        if (type == BinaryType.String)
+        if (memberType.Type == BinaryType.String)
         {
             IRecord stringRecord = ReadBinaryFormatRecord(state);
 
@@ -254,7 +252,7 @@ public abstract class Record : IWritableRecord
                 : (object)stringRecord;
         }
 
-        return type switch
+        return memberType.Type switch
         {
             BinaryType.Object
                 or BinaryType.StringArray
@@ -262,7 +260,7 @@ public abstract class Record : IWritableRecord
                 or BinaryType.Class
                 or BinaryType.SystemClass
                 or BinaryType.ObjectArray => ReadBinaryFormatRecord(state),
-            _ => throw new SerializationException($"Invalid binary type {type}."),
+            _ => throw new SerializationException($"Invalid binary type {memberType.Type}."),
         };
     }
 

@@ -15,7 +15,7 @@ namespace BinaryFormat.Records;
 /// </remarks>
 internal sealed class SystemClassWithMembers : ClassRecord, IRecord<SystemClassWithMembers>, IBinaryFormatParseable<SystemClassWithMembers>
 {
-    private SystemClassWithMembers(ClassInfo classInfo, MemberTypeInfo memberTypeInfo, IReadOnlyList<object?> memberValues)
+    private SystemClassWithMembers(ClassInfo classInfo, IReadOnlyList<MemberTypeInfo> memberTypeInfo, IReadOnlyList<object?> memberValues)
         : base(classInfo, memberTypeInfo, memberValues) { }
 
     public static RecordType RecordType => RecordType.SystemClassWithMembers;
@@ -24,7 +24,7 @@ internal sealed class SystemClassWithMembers : ClassRecord, IRecord<SystemClassW
         BinaryFormattedObject.IParseState state)
     {
         ClassInfo classInfo = ClassInfo.Parse(state.Reader, out _);
-        MemberTypeInfo memberTypeInfo = MemberTypeInfo.CreateFromClassInfoAndLibrary(state, classInfo, Id.Null);
+        IReadOnlyList<MemberTypeInfo> memberTypeInfo = Records.MemberTypeInfo.CreateFromClassInfoAndLibrary(state, classInfo, Id.Null);
         return new(
             classInfo,
             memberTypeInfo,

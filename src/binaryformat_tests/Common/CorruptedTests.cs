@@ -20,8 +20,10 @@ public abstract class CorruptedTests<T> : SerializationTest<T> where T : ISerial
             new ClassWithMembersAndTypes(
                 new ClassInfo(1, typeof(NodeStruct).FullName!, ["Node"]),
                 2,
-                new MemberTypeInfo(
-                    (BinaryType.Class, new ClassTypeInfo(typeof(NodeWithNodeStruct).FullName!, 2))),
+                new MemberTypeInfo[]
+                {
+                    new(BinaryType.Class, new ClassTypeInfo(typeof(NodeWithNodeStruct).FullName!, 2))
+                },
                 new MemberReference(1)).Write(writer);
         }
 
@@ -45,8 +47,10 @@ public abstract class CorruptedTests<T> : SerializationTest<T> where T : ISerial
             new ClassWithMembersAndTypes(
                 new ClassInfo(1, typeof(StructWithObject).FullName!, ["Value"]),
                 2,
-                new MemberTypeInfo(
-                    (BinaryType.Class, new ClassTypeInfo(typeof(StructWithObject).FullName!, 2))),
+                new MemberTypeInfo[]
+                {
+                    new(BinaryType.Class, new ClassTypeInfo(typeof(StructWithObject).FullName!, 2))
+                },
                 new MemberReference(1)).Write(writer);
         }
 
@@ -66,9 +70,11 @@ public abstract class CorruptedTests<T> : SerializationTest<T> where T : ISerial
             new ClassWithMembersAndTypes(
                 new ClassInfo(1, typeof(StructWithTwoObjects).FullName!, ["Value", "Value2"]),
                 2,
-                new MemberTypeInfo(
-                    (BinaryType.Object, null),
-                    (BinaryType.Object, null)),
+                new MemberTypeInfo[]
+                {
+                    new(BinaryType.Object, null),
+                    new(BinaryType.Object, null)
+                },
                 new MemberReference(1),
                 new MemberReference(1)).Write(writer);
         }
@@ -90,9 +96,11 @@ public abstract class CorruptedTests<T> : SerializationTest<T> where T : ISerial
             new ClassWithMembersAndTypes(
                 new ClassInfo(1, typeof(StructWithTwoObjectsISerializable).FullName!, ["Value", "Value2"]),
                 2,
-                new MemberTypeInfo(
-                    (BinaryType.Object, null),
-                    (BinaryType.Object, null)),
+                new MemberTypeInfo[]
+                {
+                    new(BinaryType.Object, null),
+                    new(BinaryType.Object, null)
+                },
                 new MemberReference(1),
                 new MemberReference(1)).Write(writer);
         }
@@ -113,11 +121,12 @@ public abstract class CorruptedTests<T> : SerializationTest<T> where T : ISerial
             ClassWithMembersAndTypes root = new(
                 new ClassInfo(1, typeof(StructWithTwoObjectsISerializable).FullName!, ["Value", "Value2"]),
                 2,
-                new MemberTypeInfo(
-                    (BinaryType.Object, null),
-                    (BinaryType.Object, null)),
-                new MemberReference(3),
-                new MemberReference(3));
+                new MemberTypeInfo[]
+                {
+                    new(BinaryType.Object, null),
+                    new(BinaryType.Object, null),
+                },
+                new MemberReference(3), new MemberReference(3));
 
             root.Write(writer);
 

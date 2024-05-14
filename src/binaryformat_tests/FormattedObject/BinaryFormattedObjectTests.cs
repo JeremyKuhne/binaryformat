@@ -46,15 +46,15 @@ public class BinaryFormattedObjectTests : SerializationTest<FormattedObjectSeria
             "Values"
         ]);
 
-        systemClass.MemberTypeInfo.Should().BeEquivalentTo(new (BinaryType Type, object? Info)[]
+        systemClass.MemberTypeInfo.Should().BeEquivalentTo(new MemberTypeInfo[]
         {
-            (BinaryType.Primitive, PrimitiveType.Single),
-            (BinaryType.Primitive, PrimitiveType.Int32),
-            (BinaryType.SystemClass, "System.Collections.IComparer"),
-            (BinaryType.SystemClass, "System.Collections.IHashCodeProvider"),
-            (BinaryType.Primitive, PrimitiveType.Int32),
-            (BinaryType.ObjectArray, null),
-            (BinaryType.ObjectArray, null)
+            new(BinaryType.Primitive, PrimitiveType.Single),
+            new(BinaryType.Primitive, PrimitiveType.Int32),
+            new(BinaryType.SystemClass, "System.Collections.IComparer"),
+            new(BinaryType.SystemClass, "System.Collections.IHashCodeProvider"),
+            new(BinaryType.Primitive, PrimitiveType.Int32),
+            new(BinaryType.ObjectArray, null),
+            new(BinaryType.ObjectArray, null)
         });
 
         systemClass.MemberValues.Should().BeEquivalentTo(new object?[]
@@ -87,15 +87,15 @@ public class BinaryFormattedObjectTests : SerializationTest<FormattedObjectSeria
 
         SystemClassWithMembersAndTypes systemClass = (SystemClassWithMembersAndTypes)format[1];
 
-        systemClass.MemberTypeInfo.Should().BeEquivalentTo(new (BinaryType Type, object? Info)[]
+        systemClass.MemberTypeInfo.Should().BeEquivalentTo(new MemberTypeInfo[]
         {
-            (BinaryType.Primitive, PrimitiveType.Single),
-            (BinaryType.Primitive, PrimitiveType.Int32),
-            (BinaryType.SystemClass, "System.Collections.IComparer"),
-            (BinaryType.SystemClass, "System.Collections.IHashCodeProvider"),
-            (BinaryType.Primitive, PrimitiveType.Int32),
-            (BinaryType.ObjectArray, null),
-            (BinaryType.ObjectArray, null)
+            new(BinaryType.Primitive, PrimitiveType.Single),
+            new(BinaryType.Primitive, PrimitiveType.Int32),
+            new(BinaryType.SystemClass, "System.Collections.IComparer"),
+            new(BinaryType.SystemClass, "System.Collections.IHashCodeProvider"),
+            new(BinaryType.Primitive, PrimitiveType.Int32),
+            new(BinaryType.ObjectArray, null),
+            new(BinaryType.ObjectArray, null)
         });
 
         systemClass.MemberValues.Should().BeEquivalentTo(new object?[]
@@ -221,10 +221,10 @@ public class BinaryFormattedObjectTests : SerializationTest<FormattedObjectSeria
         @class.Name.Should().Be(typeof(NestedSerializableObject).FullName);
         @class.MemberNames.Should().BeEquivalentTo(["_object", "_meaning"]);
         @class.LibraryId.Should().Be(2);
-        @class.MemberTypeInfo.Should().BeEquivalentTo(new (BinaryType Type, object? Info)[]
+        @class.MemberTypeInfo.Should().BeEquivalentTo(new MemberTypeInfo[]
         {
-            (BinaryType.Class, new ClassTypeInfo(typeof(SimpleSerializableObject).FullName!, 2)),
-            (BinaryType.Primitive, PrimitiveType.Int32)
+            new(BinaryType.Class, new ClassTypeInfo(typeof(SimpleSerializableObject).FullName!, 2)),
+            new(BinaryType.Primitive, PrimitiveType.Int32)
         });
 
         @class.MemberValues.Should().BeEquivalentTo(new object?[]
@@ -251,10 +251,10 @@ public class BinaryFormattedObjectTests : SerializationTest<FormattedObjectSeria
         @class.Name.Should().Be(typeof(TwoIntSerializableObject).FullName);
         @class.MemberNames.Should().BeEquivalentTo(["_value", "_meaning"]);
         @class.LibraryId.Should().Be(2);
-        @class.MemberTypeInfo.Should().BeEquivalentTo(new (BinaryType Type, object? Info)[]
+        @class.MemberTypeInfo.Should().BeEquivalentTo(new MemberTypeInfo[]
         {
-            (BinaryType.Primitive, PrimitiveType.Int32),
-            (BinaryType.Primitive, PrimitiveType.Int32)
+            new(BinaryType.Primitive, PrimitiveType.Int32),
+            new(BinaryType.Primitive, PrimitiveType.Int32)
         });
 
         @class.MemberValues.Should().BeEquivalentTo(new object?[]

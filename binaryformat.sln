@@ -19,6 +19,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		stylecop.json = stylecop.json
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "performance", "src\performance\performance.csproj", "{74261B3D-2537-4F6C-A817-753CB5B1CFF8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -33,6 +35,10 @@ Global
 		{F1C6F34E-DD88-43F0-A819-B566C7F18940}.Debug|x64.Build.0 = Debug|x64
 		{F1C6F34E-DD88-43F0-A819-B566C7F18940}.Release|x64.ActiveCfg = Release|x64
 		{F1C6F34E-DD88-43F0-A819-B566C7F18940}.Release|x64.Build.0 = Release|x64
+		{74261B3D-2537-4F6C-A817-753CB5B1CFF8}.Debug|x64.ActiveCfg = Debug|x64
+		{74261B3D-2537-4F6C-A817-753CB5B1CFF8}.Debug|x64.Build.0 = Debug|x64
+		{74261B3D-2537-4F6C-A817-753CB5B1CFF8}.Release|x64.ActiveCfg = Release|x64
+		{74261B3D-2537-4F6C-A817-753CB5B1CFF8}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
