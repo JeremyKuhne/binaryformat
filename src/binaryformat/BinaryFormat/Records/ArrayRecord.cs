@@ -56,29 +56,36 @@ public abstract class ArrayRecord : ObjectRecord, IEnumerable
             return [];
         }
 
-        ArrayBuilder<object?> memberValues = new(count);
+        object?[] memberValues = GC.AllocateUninitializedArray<object?>(count);
         for (int i = 0; i < count; i++)
         {
             object value = ReadValue(state, memberTypeInfo);
             if (value is not NullRecord nullRecord)
             {
-                memberValues.Add(value);
+                memberValues[i] = value;
                 continue;
             }
 
-            i = checked(i + nullRecord.NullCount - 1);
-            if (i >= count)
+            int nullCount = nullRecord.NullCount;
+            Debug.Assert(nullCount > 0, "Null record should have a positive null count.");
+
+            int totalCount = checked(i + nullCount - 1);
+            if (totalCount >= count)
             {
                 throw new SerializationException();
             }
 
-            for (int j = 0; j < nullRecord.NullCount; j++)
+            while (nullCount > 0)
             {
-                memberValues.Add(null);
+                memberValues[i++] = null;
+                nullCount--;
             }
+
+            // Adjust for the increment in the loop.
+            i--;
         }
 
-        return memberValues.ToArray();
+        return memberValues;
     }
 }
 

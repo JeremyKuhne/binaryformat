@@ -159,21 +159,21 @@ internal static class BinaryReaderExtensions
             // untrusted data claiming a huge number of decimal strings. Worst case is that roughly 4x what the remaining
             // data could contain at the smallest string size, but we'll still guard.
 
-            ArrayBuilder<T> values = new(count);
+            T[] values = GC.AllocateUninitializedArray<T>(count);
 
             for (int i = 0; i < count; i++)
             {
                 if (typeof(T) == typeof(decimal))
                 {
-                    values.Add((T)(object)decimal.Parse(reader.ReadString(), CultureInfo.InvariantCulture));
+                    values[i] = (T)(object)decimal.Parse(reader.ReadString(), CultureInfo.InvariantCulture);
                 }
                 else if (typeof(T) == typeof(DateTime))
                 {
-                    values.Add((T)(object)reader.ReadDateTime());
+                    values[i] = (T)(object)reader.ReadDateTime();
                 }
                 else if (typeof(T) == typeof(TimeSpan))
                 {
-                    values.Add((T)(object)new TimeSpan(reader.ReadInt64()));
+                    values[i] = (T)(object)new TimeSpan(reader.ReadInt64());
                 }
                 else
                 {
@@ -181,7 +181,7 @@ internal static class BinaryReaderExtensions
                 }
             }
 
-            return values.ToArray();
+            return values;
         }
     }
 }

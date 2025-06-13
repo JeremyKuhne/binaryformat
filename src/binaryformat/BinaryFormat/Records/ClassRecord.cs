@@ -65,13 +65,16 @@ public abstract class ClassRecord : ObjectRecord
             return [];
         }
 
-        ArrayBuilder<object?> memberValues = new(count);
-        foreach (MemberTypeInfo info in memberTypeInfo)
+        object?[] memberValues = GC.AllocateUninitializedArray<object?>(count);
+
+        for (int i = 0; i < count; i++)
         {
+            MemberTypeInfo info = memberTypeInfo[i];
+
             object value = ReadValue(state, info);
             if (value is not ObjectNull nullValue)
             {
-                memberValues.Add(value);
+                memberValues[i] = value;
                 continue;
             }
 
@@ -80,10 +83,10 @@ public abstract class ClassRecord : ObjectRecord
                 throw new SerializationException("Member values can only have one null assigned.");
             }
 
-            memberValues.Add(null);
+            memberValues[i] = null;
         }
 
-        return memberValues.ToArray();
+        return memberValues;
     }
 
     /// <summary>

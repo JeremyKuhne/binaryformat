@@ -31,13 +31,14 @@ internal class ClassInfo
         Id objectId = reader.ReadInt32();
         string name = reader.ReadString();
         memberCount = reader.ReadInt32();
-        ArrayBuilder<string> memberNames = new(memberCount);
+
+        string[] memberNames = GC.AllocateUninitializedArray<string>(memberCount);
         for (int i = 0; i < memberCount; i++)
         {
-            memberNames.Add(reader.ReadString());
+            memberNames[i] = reader.ReadString();
         }
 
-        return new(objectId, name, memberNames.ToArray());
+        return new(objectId, name, memberNames);
     }
 
     internal void Write(BinaryWriter writer)
